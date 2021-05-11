@@ -1,0 +1,21 @@
+@PART[*]:HAS[!MODULE[ModuleGround*]] //edit all non-ground-deployable parts
+{
+	+MODULE[ModuleInventoryPart],* //copies all Inventory Part modules from the part, assigning them a different name in an attempt to not trigger an internal check
+	{
+		@name = _TempModuleInventoryPart
+	}
+
+	-MODULE[ModuleInventoryPart],*{} //removes all original ModuleInventoryParts
+
+	&MODULE[ModuleCargoPart],0 //creates a ModuleCargoPart module if not existent, before all other modules
+	{
+		packedVolume = -1 //allows part manipulation but not storage
+	}
+
+	+MODULE[_TempModuleInventoryPart] //copies it again, this time as ModuleInventoryParts
+	{
+		@name = ModuleInventoryPart
+	}
+
+	-MODULE[_TempModuleInventoryPart],*{} //removes the created copies
+}
